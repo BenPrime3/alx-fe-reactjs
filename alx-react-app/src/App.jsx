@@ -2,6 +2,7 @@ import WelcomeMessage from './components/WelcomeMessage';
 import Header from './components/Header';
 import MainContent from './components/MainContent';
 import Footer from './components/Footer';
+import UserProfile from './components/UserProfile';
 import { useState } from 'react';
 import reactLogo from './assets/react.svg';
 import viteLogo from '/vite.svg';
@@ -15,6 +16,8 @@ function App() {
       <WelcomeMessage />
       <Header />
       <MainContent />
+
+      <UserProfile name="BenPrime" age="22" bio="Loves Art" />
   
       <div>
         <a href="https://vite.dev" target="_blank">
@@ -30,7 +33,7 @@ function App() {
           count is {count}
         </button>
         <p>
-          Edit <code>src/App.jsx</code> and save to test HMRs
+          Edit <code>src/App.jsx</code> and save to test HMR
         </p>
       </div>
       <p className="read-the-docs">
