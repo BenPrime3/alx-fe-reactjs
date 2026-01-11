@@ -17,7 +17,7 @@ function App() {
       <Header />
       <MainContent />
 
-      <UserProfile name="BenPrime" age="22" bio="Loves Art" />
+      <UserProfile name="Alice" age="25" bio="Loves hiking and photography" />
   
       <div>
         <a href="https://vite.dev" target="_blank">
