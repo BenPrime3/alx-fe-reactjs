@@ -1,7 +1,7 @@
 function Footer() {
   return (
     <>
-      <footer>
+      <footer style={{border:'1px solid white'}}>
         <p>© 2023 City Lovers</p>
       </footer>
     </>
