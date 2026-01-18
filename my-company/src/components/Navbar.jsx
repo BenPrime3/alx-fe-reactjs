@@ -2,19 +2,19 @@ import { Link } from "react-router-dom";
 
 function Navbar() {
   return (
-    <nav>
-      <ul style={{ display: "flex", gap: "1rem", listStyle: "none", justifyContent:"center" }}>
+    <nav style={{backgroundColor:"white"}}>
+      <ul style={{ display: "flex", gap: "1rem", listStyle: "none", justifyContent:"center"}}>
         <li>
-          <Link to="/">Home</Link>
+          <Link to="/" style={{color:"black"}}>Home</Link>
         </li>
         <li>
-          <Link to="/about">About</Link>
+          <Link to="/about" style={{color:"black"}}>About</Link>
         </li>
         <li>
-          <Link to="/services">Services</Link>
+          <Link to="/services" style={{color:"black"}}>Services</Link>
         </li>
         <li>
-          <Link to="/contact">Contact</Link>
+          <Link to="/contact" style={{color:"black"}}>Contact</Link>
         </li>
       </ul>
     </nav>
