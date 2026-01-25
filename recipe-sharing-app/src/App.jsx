@@ -1,4 +1,4 @@
-import RecipeList from "./Components/RecipeList";
-import AddRecipeForm from "./Components/AddRecipeForm";
+import RecipeList from "./RecipeList";
+import AddRecipeForm from "./AddRecipeForm";
 
 
