@@ -29,4 +29,6 @@ import { useState } from 'react';
         <button type="submit">Add Recipe</button>
       </form>
     );
-  };
+};
+  
+export default AddRecipeForm;
