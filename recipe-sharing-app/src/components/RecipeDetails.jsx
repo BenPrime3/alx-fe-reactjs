@@ -13,4 +13,6 @@ import { useRecipeStore } from './recipeStore';
         <DeleteRecipeButton recipeId={recipe.id} />
       </div>
     );
-  };
+};
+  
+export default RecipeDetails;
