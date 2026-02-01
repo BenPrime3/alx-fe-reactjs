@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useRecipeStore } from './recipeStore';
 
 const RecipeList = () => {
@@ -7,10 +8,14 @@ const RecipeList = () => {
   return (
     <div>
       <h2>All Recipes</h2>
+
       {recipes.map((recipe) => (
         <div key={recipe.id}>
           <h3>{recipe.title}</h3>
           <p>{recipe.description}</p>
+
+          <Link to={`/recipe/${recipe.id}`}>View Details</Link>
+
           <button onClick={() => addFavorite(recipe.id)}>
             Add to Favorites
           </button>
@@ -21,4 +26,5 @@ const RecipeList = () => {
 };
 
 export default RecipeList;
+
 
