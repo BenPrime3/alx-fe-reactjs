@@ -5,14 +5,15 @@ function App() {
   return (
     <>
       
-      <div>
+      <div style={{
+        width: "100%"
+      }}>
         <h1>GitHub User Search</h1>
         <Search />
       </div>
       
     </>
   )
-
 
 }
 

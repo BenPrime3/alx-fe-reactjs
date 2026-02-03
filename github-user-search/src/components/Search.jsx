@@ -35,13 +35,15 @@ const Search = ({ onSearch }) => {
   };
 
   return (
-    <div>
+    <div style={{display: "flex", flexDirection: "column", justifyContent: "center"}}>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} style={{display: "flex",flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
         <input type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search Github Users"
+          placeholder="Search Github Users..."
+          style={{width: "100%", height: "40px", backgroundColor: "#242424", 
+          borderRadius:"10px", border: "1px solid white", textAlign: "center", marginBottom: "40px"}}
         />
 
         <button type="submit">Search</button>
@@ -51,7 +53,7 @@ const Search = ({ onSearch }) => {
       {error && <p style={{ color: "red" }}>{error}</p>}
       
       {user && (
-        <div>
+        <div style={{display: "flex", flexDirection: "column", backgroundColor: "#343434", padding: "30px", marginTop: "40px", borderRadius: "20px"}}>
           <img src={user.avatar_url} alt={user.login} />
           <div>
             <h2>{user.name || user.login}</h2>
