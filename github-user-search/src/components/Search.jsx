@@ -1,29 +1,77 @@
 import { useState } from "react";
 import fetchUserData from "../services/githubService";
+import axios from "axios";
 
 
 const Search = ({ onSearch }) => {
-  const [query, setQuery] = useState("");
-  const [user, setUser] = useState(null);
+  const [form, setForm] = useState({
+    username: "",
+    location: "",
+    minRepos: "",
+  });
+  const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const buildQuery = (form) => {
+  let queryParts = [];
 
+  if (form.username) {
+    queryParts.push(form.username);
+  }
+
+  if (form.location) {
+    queryParts.push(`location:${form.location}`);
+  }
+
+  if (form.minRepos) {
+    queryParts.push(`repos:>${form.minRepos}`);
+  }
+
+  return queryParts.join(" ");
+};
+
+
+  const handleChange = (e) => {
+    setForm({...form, [e.target.name]:e.target.value})
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setUser(null);
-    setQuery("");
+    
 
     
-    
-    if (query.trim() !== "") {
+    if (form.username || form.location || form.minRepos) {
 
       setLoading(true);
       setError("")
       
       try {
-        const data = await fetchUserData(query.trim());
-        setUser(data);
+            const queryString = buildQuery(form);
+        const data = await fetchUserData(queryString);
+        console.log("Query String:", queryString);
+
+
+            const detailedUsers = await Promise.allSettled(
+              data.items.map(async (user) => {
+                try {
+                  const res = await axios.get(user.url, {
+                    headers: { Authorization: `token ${import.meta.env.VITE_APP_GITHUB_API_KEY}` },
+                  });
+                  return res.data;
+                } catch {
+                  return null;
+                }
+              })
+            );
+
+    setUsers(
+      detailedUsers
+        .filter(r => r.status === "fulfilled" && r.value !== null)
+        .map(r => r.value)
+    );
+
+
+
       }
       catch (error) {
         setError("Looks like we cant find the user");
@@ -38,12 +86,28 @@ const Search = ({ onSearch }) => {
     <div style={{display: "flex", flexDirection: "column", justifyContent: "center"}}>
 
       <form onSubmit={handleSubmit} style={{display: "flex",flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
-        <input type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search Github Users..."
-          style={{width: "100%", height: "40px", backgroundColor: "#242424", 
-          borderRadius:"10px", border: "1px solid white", textAlign: "center", marginBottom: "40px"}}
+        <input
+          name="username"
+          type="text"
+          onChange={handleChange}
+          style={{ width: "100%", height: "40px", backgroundColor: "#242424", borderRadius: "10px", border: "1px solid white", textAlign: "center", marginBottom: "40px" }}
+          placeholder="Username..."
+        />
+
+        <input
+          name="location"
+          type="text"
+          onChange={handleChange}
+          style={{ width: "100%", height: "40px", backgroundColor: "#242424", borderRadius: "10px", border: "1px solid white", textAlign: "center", marginBottom: "40px" }}
+          placeholder="Location..."
+        />
+
+        <input
+          name="minRepos"
+          type="number"
+          onChange={handleChange}
+          style={{ width: "100%", height: "40px", backgroundColor: "#242424", borderRadius: "10px", border: "1px solid white", textAlign: "center", marginBottom: "40px" }}
+          placeholder="Minimum Number of Repos"
         />
 
         <button type="submit">Search</button>
@@ -52,8 +116,8 @@ const Search = ({ onSearch }) => {
       {loading && <p>Loading</p>}
       {error && <p style={{ color: "red" }}>{error}</p>}
       
-      {user && (
-        <div style={{display: "flex", flexDirection: "column", backgroundColor: "#343434", padding: "30px", marginTop: "40px", borderRadius: "20px"}}>
+      {users.length > 0 && users.map((user) => (
+        <div key={user.id} style={{display: "flex", flexDirection: "column", backgroundColor: "#343434", padding: "30px", marginTop: "40px", borderRadius: "20px"}}>
           <img src={user.avatar_url} alt={user.login} />
           <div>
             <h2>{user.name || user.login}</h2>
@@ -62,7 +126,7 @@ const Search = ({ onSearch }) => {
             <a href={user.html_url} target="_blank" rel="noopener noreferrer"> View Profile</a>
           </div>
         </div>
-      )}
+      ))}
       
     </div>
   )
