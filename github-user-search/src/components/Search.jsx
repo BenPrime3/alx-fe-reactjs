@@ -39,38 +39,35 @@ const Search = ({ onSearch }) => {
     e.preventDefault();
     
 
-    
     if (form.username || form.location || form.minRepos) {
 
       setLoading(true);
       setError("")
       
       try {
-            const queryString = buildQuery(form);
+        const queryString = buildQuery(form);
         const data = await fetchUserData(queryString);
-        console.log("Query String:", queryString);
+        console.log(queryString)
 
+        const detailedUsers = await Promise.allSettled(
+          data.items.map(async (user) => {
 
-            const detailedUsers = await Promise.allSettled(
-              data.items.map(async (user) => {
-                try {
-                  const res = await axios.get(user.url, {
-                    headers: { Authorization: `token ${import.meta.env.VITE_APP_GITHUB_API_KEY}` },
-                  });
-                  return res.data;
-                } catch {
-                  return null;
-                }
-              })
-            );
+            try {
+              const res = await axios.get(user.url, {
+                headers: { Authorization: `token ${import.meta.env.VITE_APP_GITHUB_API_KEY}` },
+              });
+              return res.data;
+            }
+            catch {
+              return null;
+            }
 
-    setUsers(
-      detailedUsers
-        .filter(r => r.status === "fulfilled" && r.value !== null)
-        .map(r => r.value)
-    );
+          })
+        );
 
-
+        setUsers(
+          detailedUsers.filter(r => r.status === "fulfilled" && r.value !== null).map(r => r.value)
+        );
 
       }
       catch (error) {
@@ -113,8 +110,10 @@ const Search = ({ onSearch }) => {
         <button type="submit">Search</button>
       </form>
       
-      {loading && <p>Loading</p>}
+      {loading && <p>Loading...</p>}
       {error && <p style={{ color: "red" }}>{error}</p>}
+
+      {/* {users.length === 0 && !loading && !error && (<p>Couldn't Find Any Users</p>)} */}
       
       {users.length > 0 && users.map((user) => (
         <div key={user.id} style={{display: "flex", flexDirection: "column", backgroundColor: "#343434", padding: "30px", marginTop: "40px", borderRadius: "20px"}}>
