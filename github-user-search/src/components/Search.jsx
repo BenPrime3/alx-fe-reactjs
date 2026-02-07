@@ -81,11 +81,13 @@ const Search = ({ onSearch }) => {
   };
 
   return (
-    <div style={{display: "flex", flexDirection: "column", justifyContent: "center"}}>
+    <>
+    <div className="flex-col p-8">
 
-      <form onSubmit={handleSubmit} style={{display: "flex",flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
+      <form onSubmit={handleSubmit} style={{display: "flex",flexDirection: "column", justifyContent: "center", alignItems: "center", gap:"2rem"}}>
         <input
           name="username"
+          className="text-center text-muted p-4 w-full max-w-xs h-7 border-muted border-solid border border-l-4 rounded-sm outline-none focus:border-primary focus:text-primary transition duration-500"
           type="text"
           onChange={handleChange}
           placeholder="Username..."
@@ -93,6 +95,7 @@ const Search = ({ onSearch }) => {
 
         <input
           name="location"
+          className="text-center text-muted p-4 w-full max-w-xs h-7 border-muted border-solid border border-l-4 rounded-sm outline-none focus:border-primary focus:text-primary transition duration-500"
           type="text"
           onChange={handleChange}
           placeholder="Location..."
@@ -100,33 +103,46 @@ const Search = ({ onSearch }) => {
 
         <input
           name="minRepos"
+          className="text-center text-muted p-4 w-full max-w-xs h-7 border-muted border-solid border border-l-4 rounded-sm outline-none focus:border-primary focus:text-primary transition duration-500"
           type="number"
           onChange={handleChange}
           placeholder="Minimum Number of Repos"
         />
 
-        <button type="submit">Search</button>
+        <button type="submit"
+          className="bg-primary px-5 py-1 text-white font-bold rounded-sm cursor-auto"
+        >
+          Search
+        </button>
       </form>
+    </div>
       
+    <div className="flex justify-center">
       {loading && <p>Loading...</p>}
       {error && <p style={{ color: "red" }}>{error}</p>}
+    </div>
+
+    <div className="flex-row flex flex-wrap gap-10 justify-center">
 
       {users.length === 0 && !loading && !error && find && (<p>Couldn't Find Any Users</p>)}
       
       {users.length > 0 && users.map((user) => (
-        <div key={user.id} style={{display: "flex", flexDirection: "column", backgroundColor: "#343434", padding: "30px", marginTop: "40px", borderRadius: "20px"}}>
-          <img src={user.avatar_url} alt={user.login} />
-          <div>
-            <h2>{user.name || user.login}</h2>
-            <p>Username: {user.login}</p>
-            <p>Followers: {user.followers} || Following: {user.following}</p>
-            <a href={user.html_url} target="_blank" rel="noopener noreferrer"> View Profile</a>
+
+          <div key={user.id} style={{ display: "flex", flexDirection: "column", backgroundColor: "#343434", padding: "30px", marginTop: "40px", borderRadius: "20px", maxWidth:"300px"}}>
+            <img src={user.avatar_url} alt={user.login} />
+            <div>
+              <h2>{user.name || user.login}</h2>
+              <p>Username: {user.login}</p>
+              <p>Followers: {user.followers} || Following: {user.following}</p>
+              <a href={user.html_url} target="_blank" rel="noopener noreferrer"> View Profile</a>
+            </div>
           </div>
-        </div>
       ))}
       
     </div>
+  </>
   )
+
 };
 
 export default Search;
