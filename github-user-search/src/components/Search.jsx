@@ -11,6 +11,7 @@ const Search = ({ onSearch }) => {
   });
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [find, setFind] = useState(false)
   const [error, setError] = useState("");
   const buildQuery = (form) => {
   let queryParts = [];
@@ -42,12 +43,12 @@ const Search = ({ onSearch }) => {
     if (form.username || form.location || form.minRepos) {
 
       setLoading(true);
+      setFind(true)
       setError("")
       
       try {
         const queryString = buildQuery(form);
         const data = await fetchUserData(queryString);
-        console.log(queryString)
 
         const detailedUsers = await Promise.allSettled(
           data.items.map(async (user) => {
@@ -87,7 +88,6 @@ const Search = ({ onSearch }) => {
           name="username"
           type="text"
           onChange={handleChange}
-          style={{ width: "100%", height: "40px", backgroundColor: "#242424", borderRadius: "10px", border: "1px solid white", textAlign: "center", marginBottom: "40px" }}
           placeholder="Username..."
         />
 
@@ -95,7 +95,6 @@ const Search = ({ onSearch }) => {
           name="location"
           type="text"
           onChange={handleChange}
-          style={{ width: "100%", height: "40px", backgroundColor: "#242424", borderRadius: "10px", border: "1px solid white", textAlign: "center", marginBottom: "40px" }}
           placeholder="Location..."
         />
 
@@ -103,7 +102,6 @@ const Search = ({ onSearch }) => {
           name="minRepos"
           type="number"
           onChange={handleChange}
-          style={{ width: "100%", height: "40px", backgroundColor: "#242424", borderRadius: "10px", border: "1px solid white", textAlign: "center", marginBottom: "40px" }}
           placeholder="Minimum Number of Repos"
         />
 
@@ -113,7 +111,7 @@ const Search = ({ onSearch }) => {
       {loading && <p>Loading...</p>}
       {error && <p style={{ color: "red" }}>{error}</p>}
 
-      {/* {users.length === 0 && !loading && !error && (<p>Couldn't Find Any Users</p>)} */}
+      {users.length === 0 && !loading && !error && find && (<p>Couldn't Find Any Users</p>)}
       
       {users.length > 0 && users.map((user) => (
         <div key={user.id} style={{display: "flex", flexDirection: "column", backgroundColor: "#343434", padding: "30px", marginTop: "40px", borderRadius: "20px"}}>
