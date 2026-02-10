@@ -20,7 +20,7 @@ function HomePage() {
             <h3>{recipe.title}</h3>
             <p>{recipe.summary}</p>
           </div>
-        ))}
+        ))}...
       </div>
     </div>
   )
