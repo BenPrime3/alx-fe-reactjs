@@ -14,7 +14,7 @@ function RecipeDetail() {
   if (!recipe) return <p>Loading recipe...</p>;
 
   return (
-    <div className="flex flex-col justify-center justify-self-center mt-10 text-center">
+    <div className="flex flex-col justify-center justify-self-center mt-10 text-center shadow-xl p-16 rounded-lg">
       <h1>{recipe.name}</h1>
       <img src={recipe.image} alt={recipe.title} />
 
