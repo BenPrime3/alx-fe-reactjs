@@ -21,22 +21,24 @@ export default function RegistrationForm() {
   }
 
   function validate() {
-    const newErrors = {};
+  const newErrors = {};
 
-    if (!formData.username.trim()) {
-      newErrors.username = "Username is required";
-    }
+  const { username, email, password } = formData;
 
-    if (!formData.email.trim()) {
-      newErrors.email = "Email is required";
-    }
-
-    if (!formData.password.trim()) {
-      newErrors.password = "Password is required";
-    }
-
-    return newErrors;
+  if (!username) {
+    newErrors.username = "Username is required";
   }
+
+  if (!email) {
+    newErrors.email = "Email is required";
+  }
+
+  if (!password) {
+    newErrors.password = "Password is required";
+  }
+
+  return newErrors;
+}
 
   function handleSubmit(e) {
     e.preventDefault();
