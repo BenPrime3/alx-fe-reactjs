@@ -4,7 +4,7 @@ function Login() {
   const navigate = useNavigate();
 
   const handleLogin = () => {
-    localStorage.setItem("auth", "true");
+    localStorage.setItem("useAuth", "true");
     navigate("/profile");
   };
 
