@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-
+// Single Todo item component
 const TodoItem = ({ todo, toggleTodo, deleteTodo }) => (
   <li>
     <span
@@ -16,7 +16,7 @@ const TodoItem = ({ todo, toggleTodo, deleteTodo }) => (
   </li>
 );
 
-
+// Form to add new todos
 const AddTodoForm = ({ addTodo }) => {
   const [value, setValue] = useState('');
 
@@ -40,6 +40,7 @@ const AddTodoForm = ({ addTodo }) => {
   );
 };
 
+// Main TodoList Component
 export default function TodoList() {
   const [todos, setTodos] = useState([
     { id: 1, text: 'Learn React', completed: false },
